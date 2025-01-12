@@ -1,5 +1,6 @@
 import os
 import tkinter as tk
+from tokenize import endpats
 
 import cv2
 from PIL import Image, ImageTk
@@ -7,14 +8,13 @@ from skimage.metrics import structural_similarity as ssim
 
 
 def click_accept(path, root):
-    print("accepted")
     print(f"Beholder bildet: {path}")
     root.destroy()
 
 
 def confirm_click(root):
     confirmwindow = tk.Toplevel(root)
-    confirmwindow.title("Nested Window")
+    confirmwindow.title("Bekreft valg")
     confirmwindow.geometry("300x200")
     label = tk.Label(confirmwindow, text="Sikker på at du vil slette bildet?")
     label.pack(pady=10)
@@ -71,7 +71,7 @@ def stopdeleting(root):
 
 def cancel(root):
     leavewindow = tk.Toplevel(root)
-    leavewindow.title("Nested Window")
+    leavewindow.title("Bekreft avbryting")
     leavewindow.geometry("300x200")
     label = tk.Label(leavewindow, text="Sikker på at du vil stikke?")
     label.pack(pady=10)
@@ -90,19 +90,16 @@ def cancel(root):
     leavewindow.mainloop()
 
 
-done = False
-
-ODImages = []
-GImages = []
-
-
-def main(oneDriveMainPath, googleMainPath, DeleteFromGoogle, startyear):
-    while os.path.exists(oneDriveMainPath) and os.path.exists(googleMainPath) and not done:
+def main(oneDriveMainPath, googleMainPath, DeleteFromGoogle, startyear, endyear):
+    while os.path.exists(oneDriveMainPath) and os.path.exists(googleMainPath) and not done and startyear > endyear:
         dirs = [
             x
             for x in os.listdir(oneDriveMainPath)
             if os.path.isdir(os.path.join(oneDriveMainPath, x))
         ]
+        dirs.sort(key=lambda x: monthsTest.index(x))  # Change to monthsEN or monthsNO for full months
+        # dirs.sort(key=lambda x: monthsEN.index(x))
+        # dirs.sort(key=lambda x: monthsNO.index(x))
         for dir in dirs:
             ODSearchPath = f"./OneDrive/{startyear}/{dir}"
             GSearchPath = f"./Google/{startyear}/{dir}"
@@ -127,7 +124,8 @@ def main(oneDriveMainPath, googleMainPath, DeleteFromGoogle, startyear):
                     GImageName = GImage
                     GImagePath = f"./Google/{startyear}/{dir}/{GImage}"
                     if not os.path.exists(ODImagePath) or not os.path.exists(GImagePath):
-                        print(f"Skipping comparison, file(s) missing: {ODImagePath} or {GImagePath}")
+                        print(
+                            f"Hopper over sammenligning siden minst en av filene: {ODImagePath} eller {GImagePath} mangler")
                         continue
                     GImage = cv2.imread(
                         f"./Google/{startyear}/{dir}/{GImage}", cv2.IMREAD_GRAYSCALE
@@ -145,8 +143,10 @@ def main(oneDriveMainPath, googleMainPath, DeleteFromGoogle, startyear):
                             ODtk_image = ImageTk.PhotoImage(ODpil_image)
                             Glabel = tk.Label(root, image=Gtk_image)
                             ODlabel = tk.Label(root, image=ODtk_image)
-                            Glabel.pack()
-                            ODlabel.pack()
+                            Glabel.place(x=100, y=50)
+                            ODlabel.place(x=100, y=300)
+
+                            # Buttons with fixed placement
                             accept = tk.Button(
                                 root,
                                 text="Behold",
@@ -157,14 +157,14 @@ def main(oneDriveMainPath, googleMainPath, DeleteFromGoogle, startyear):
                                 text="Slett",
                                 command=lambda: click_reject(GImagePath, root, delImg),
                             )
-
                             leave = tk.Button(
                                 root, text="Forlat sletting", command=lambda: cancel(root)
                             )
 
-                            accept.pack(pady=10)
-                            reject.pack(pady=10)
-                            leave.pack(pady=40)
+                            # Place buttons at specific positions
+                            accept.place(relx=0.4, rely=0.8, anchor="center")
+                            reject.place(relx=0.6, rely=0.8, anchor="center")
+                            leave.place(relx=0.5, rely=0.9, anchor="center")
                             root.mainloop()
                             if done:
                                 return
@@ -178,7 +178,17 @@ def main(oneDriveMainPath, googleMainPath, DeleteFromGoogle, startyear):
         oneDriveMainPath = f"./OneDrive/{startyear}"
 
 
+done = False
+ODImages = []
+GImages = []
+monthsNO = ["Januar", "Februar", "Mars", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November",
+            "Desember"]
+monthsEN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+            "November", "Desember"]
+monthsTest = [x[:3] for x in monthsEN[:4]]
 startyear = 2025
+
+endyear = 0  # Sett til 0 for å slette alle år, kan endres for å maks gå til og med ett bestemt år
 DeleteFromGoogle = True  # True for å slette fra Google, False for å slette fra OneDrive
 oneDriveMainPath = f"./OneDrive/{startyear}"  # Bytt ut alt fram til /startyear med "C:/Users/bruker/OneDrive" elns
 googleMainPath = f"./Google/{startyear}"  # Samme som over,  "C:/Users/bruker/Google" elns
@@ -186,4 +196,4 @@ googleMainPath = f"./Google/{startyear}"  # Samme som over,  "C:/Users/bruker/Go
 confirm = False  # Bekreftelse på sletting
 
 main(oneDriveMainPath, googleMainPath, DeleteFromGoogle,
-     startyear=startyear)
+     startyear=startyear, endyear=endyear)

@@ -17,7 +17,7 @@ def fill_dir(base_path, years, months, photos_path, clearDir=False):  # Sett cle
                 continue
             os.makedirs(month_path, exist_ok=True)
 
-            numPhotos = random.randint(8, len(photo_files))
+            numPhotos = random.randint(1, len(photo_files))
             copyPhotos = random.sample(photo_files, numPhotos)
 
             for photo in copyPhotos:
