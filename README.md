@@ -44,7 +44,7 @@ pip install pillow opencv-python scikit-image
 ## How It Works
 
 ### **Step 1: Setup Directories**
-The script creates year/month subdirectories under `./Google` and `./OneDrive` and populates them with random images from a `TestPhotos` directory.
+The `CreateDirs` script creates year/month subdirectories under `./Google` and `./OneDrive` and populates them with random images from a `TestPhotos` directory.
 
 ### **Step 2: Compare Images**
 - The program iterates through the specified year and month directories.
