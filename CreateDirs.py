@@ -9,7 +9,6 @@ def fill_dir(base_path, years, months, photos_path, clearDir=False):  # Sett cle
     for year in years:
         year_path = os.path.join(base_path, str(year))
         os.makedirs(year_path, exist_ok=True)
-
         for month in months:
             month_path = os.path.join(year_path, month)
             if clearDir:
