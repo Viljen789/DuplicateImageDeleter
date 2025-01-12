@@ -1,7 +1,5 @@
 import os
 import tkinter as tk
-from tokenize import endpats
-
 import cv2
 from PIL import Image, ImageTk
 from skimage.metrics import structural_similarity as ssim
@@ -135,7 +133,7 @@ def main(oneDriveMainPath, googleMainPath, DeleteFromGoogle, startyear, endyear)
                         if score > 0.95:
                             delImg = GImageName if DeleteFromGoogle else ODImageName
                             root = tk.Tk()
-                            root.geometry("500x700")
+                            root.geometry("500x700+200+100")
                             root.title(f"{dir} {startyear} {GImageName} {ODImageName}")
                             Gpil_image = Image.open(GImagePath)
                             ODpil_image = Image.open(ODImagePath)
