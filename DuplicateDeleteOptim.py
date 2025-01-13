@@ -8,16 +8,16 @@ import threading
 import queue
 
 # Konfigurasjon
-similarityThreshold = 0.01  # Juster likhetsterskelen etter behov
-resizeSize = (512, 512)  # Juster størrelse for SSIM-sammenligning
-displayMaxSize = (300, 300)  # Juster størrelse for GUI-visning
+similarityThreshold = 0.5  # Kan endre om den skal være meir/mindre sensitiv
+resizeSize = (512, 512)  # Størresle for SSIM-beregning
+displayMaxSize = (300, 300)  # GUI størrelse
 monthsEN = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
 ]
 monthsTest = [x[:3] for x in monthsEN[:4]]  # ["Jan","Feb","Mar","Apr"]
 
-resizedCache = {}  # path -> np.array (grayscale) for SSIM
+resizedCache = {}  # Dict fra path -> grayscale bilde
 
 
 def lesOgResizeBildeForSsim(path, size=resizeSize):
