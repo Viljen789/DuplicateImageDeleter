@@ -7,6 +7,10 @@ from skimage.metrics import structural_similarity as ssim
 import threading
 import queue
 
+# Juster disse variablene om nødvendig
+similarityThreshold = 0.5  # Kan endre om den skal være meir/mindre sensitiv
+resizeSize = (512, 512)  # Størresle for SSIM-beregning
+displayMaxSize = (300, 300)  # GUI størrelse
 
 monthsEN = [
     "January", "February", "March", "April", "May", "June",
@@ -314,9 +318,6 @@ class ImageComparatorApp:
 
 
 # Juster disse variablene om nødvendig
-similarityThreshold = 0.5  # Kan endre om den skal være meir/mindre sensitiv
-resizeSize = (512, 512)  # Størresle for SSIM-beregning
-displayMaxSize = (300, 300)  # GUI størrelse
 startYear = 2025
 endYear = 0  # Sett til 0 for å slette alle år, kan endres for å maks gå til og med ett bestemt år
 deleteFromGoogle = True  # True for å slette fra Google, False for å slette fra OneDrive
