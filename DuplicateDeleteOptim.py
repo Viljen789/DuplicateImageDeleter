@@ -15,6 +15,10 @@ monthsEN = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
 ]
+monthsNO = [
+    "Januar", "Februar", "Mars", "April", "Mai", "Juni",
+    "Juli", "August", "September", "Oktober", "November", "Desember"
+]
 monthsTest = [x[:3] for x in monthsEN[:4]]  # ["Jan","Feb","Mar","Apr"]
 
 resizedCache = {}  # Dict fra path -> grayscale bilde
