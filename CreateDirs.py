@@ -28,7 +28,7 @@ def fill_dir(base_path, years, months, photos_path, clearDir=False):  # Sett cle
 years = [2025, 2024, 2023, 2022]
 months = ['Jan', 'Feb', 'Mar', 'Apr']
 
-test_photos_path = './TestPhotos'
+test_photos_path = './LargePhotos'
 
 google_base_path = './Google'
 onedrive_base_path = './OneDrive'
