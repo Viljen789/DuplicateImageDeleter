@@ -4,21 +4,29 @@ This project is a Python-based application that identifies and removes duplicate
 
 ## Features
 
-1. **Directory Management:**
-   - Automatically generates directories for specified years and months.
-   - Fills these directories with random images from a `TestPhotos` directory.
+### **Enhanced Features:**
+1. **Multi-Year and Multi-Month Directory Support:**
+   - Handles directories for multiple years and months dynamically, ensuring a comprehensive comparison process.
 
-2. **Image Comparison:**
-   - Compares images between directories using Structural Similarity Index (SSIM) from `skimage.metrics`.
-   - Images with a similarity score above a defined threshold (e.g., 0.95) are flagged as duplicates.
+2. **Preprocessing for Performance:**
+   - Precomputes image pairs and caches resized grayscale versions for faster SSIM calculations.
 
-3. **GUI Interaction:**
-   - Provides a Tkinter-based interface to view and decide on duplicate images.
-   - Buttons to accept or delete an image, and an option to cancel the process.
+3. **Flexible Threshold:**
+   - Configurable similarity threshold for SSIM-based image comparison, enabling sensitivity adjustments.
 
-4. **Configurable Options:**
-   - Choose whether to delete images from Google Drive or OneDrive.
-   - Enable or disable confirmation prompts before deletion.
+4. **Modernized GUI:**
+   - Displays both images flagged as duplicates side-by-side with options to keep, delete, or cancel.
+   - Enhanced user interface with progress bars and dynamic updates.
+
+5. **Threaded Preprocessing:**
+   - Uses multithreading for preprocessing image pairs, ensuring the main application remains responsive during calculations.
+
+6. **Improved Logging and Error Handling:**
+   - Logs detailed error messages during image loading, resizing, or SSIM calculation.
+
+7. **Configurable Deletion Behavior:**
+   - Allows users to select whether to delete duplicates from Google Drive or OneDrive.
+   - Option to enable or disable confirmation prompts for deletion actions.
 
 ---
 
@@ -69,14 +77,14 @@ The `CreateDirs` script creates year/month subdirectories under `./Google` and `
 2. **Run the Program:**
    - Start the script by running:
      ```bash
-     python CreateDirs.py
+     python DuplicateDelete.py
      ```
    - The GUI will appear for flagged duplicate images, allowing you to decide on each case.
 
 3. **Configuration:**
    - Modify the following variables in the script to suit your needs:
-     - `DeleteFromGoogle`: Set to `True` to delete images from Google, `False` to delete from OneDrive.
-     - `confirm`: Set to `True` to enable confirmation prompts before deletion.
+     - `delete_from_google`: Set to `True` to delete images from Google, `False` to delete from OneDrive.
+     - `confirm_delete`: Set to `True` to enable confirmation prompts before deletion.
 
 ---
 
@@ -119,6 +127,9 @@ The `CreateDirs` script creates year/month subdirectories under `./Google` and `
    - Displays both images flagged as duplicates.
    - Options to **keep**, **delete**, or **cancel**.
 
+3. **Progress Bar:**
+   - Real-time progress updates during image preprocessing and SSIM calculations.
+
 ---
 
 ## Notes
@@ -126,8 +137,9 @@ The `CreateDirs` script creates year/month subdirectories under `./Google` and `
 - **Performance:**
   - Comparing large image sets may take time. Optimize by reducing the number of images or directories.
 - **Error Handling:**
-  - The program skips missing files and handles exceptions gracefully.
+  - Provides detailed error logs for missing files or calculation issues.
 
 ---
 
 Feel free to modify and adapt the code to your specific use case!
+
